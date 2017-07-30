@@ -79,7 +79,13 @@ RUN apt-get install -y autoconf
 RUN mkdir -p /home/docker/installed/JModelica
 
 WORKDIR /home/docker/to_install
-RUN svn co https://svn.jmodelica.org/trunk JModelica.org
+
+RUN svn co https://svn.jmodelica.org/trunk JModelica.org; exit 0  # Note the workaround `; exit 0`
+
+# Workaround from http://www.jmodelica.org/27850#comment-6589
+WORKDIR /home/docker/to_install/JModelica.org/external
+RUN svn co https://svn.jmodelica.org/assimulo/trunk Assimulo
+
 WORKDIR /home/docker/to_install/JModelica.org
 RUN mkdir build
 WORKDIR /home/docker/to_install/JModelica.org/build
